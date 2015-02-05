@@ -15,16 +15,18 @@ package org.openmarl.yasul;
  */
 public class Libyasul {
 
-    static {
-        System.loadLibrary(Ysl.LIBRARY);
-    }
-
     /**
      *
      * @param logDir
      * @param debug
      */
     public static native int bootstrap(String logDir, boolean debug);
+
+    /**
+     *
+     * @return
+     */
+    public static native String getLogpath();
 
     /**
      *
@@ -85,4 +87,8 @@ public class Libyasul {
      */
     public static native int findPidByCmdline(String cmdline);
 
+    static final String LIBRARY = "yasul";
+    static {
+        System.loadLibrary(LIBRARY);
+    }
 }

@@ -47,6 +47,14 @@ public class YasulUT {
         String txtResult;
         int nRetval;
 
+        // output logpath
+        String yslLogpath = YslContext.getInstance().getLogpath();
+        if (yslLogpath == null) {
+            Log.e(TAG, "SHOULD NOT be null !");
+            return false;
+        }
+        Log.d(TAG , String.format("Libyasul log path: %s", yslLogpath));
+
         // check stupid command
         //
         parcel = mYslSession.exec(TEST_UNDEF_CMD);

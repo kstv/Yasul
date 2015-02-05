@@ -23,6 +23,10 @@ JNIEXPORT jint JNICALL
             jboolean jDebug);
 
 JNIEXPORT jobject JNICALL
+    Java_org_openmarl_yasul_Libyasul_getLogpath(JNIEnv *env, 
+            jobject jInstance);
+
+JNIEXPORT jobject JNICALL
     Java_org_openmarl_yasul_Libyasul_open(JNIEnv *env, 
             jobject jInstance,
             jint jFlags);
@@ -66,7 +70,6 @@ JNIEXPORT jint JNICALL
             jobject jInstance,
             jstring jCmdline);
 
-            
 // JNI_OnLoad
 //
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved);

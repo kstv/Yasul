@@ -49,6 +49,18 @@ JNIEXPORT int JNICALL
 }
 
 JNIEXPORT jobject JNICALL
+    Java_org_openmarl_yasul_Libyasul_getLogpath(JNIEnv *env, 
+            jobject jInstance) {
+  
+    jstring jLogpath = NULL;
+    const char *logpath = ysl_log_path();
+    if (logpath)
+        jLogpath = (*env)->NewStringUTF(env, logpath);
+    
+    return jLogpath;
+}
+
+JNIEXPORT jobject JNICALL
     Java_org_openmarl_yasul_Libyasul_open(JNIEnv *env, 
             jobject jInstance,
             jint jFlags) {

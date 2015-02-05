@@ -52,6 +52,10 @@ public class YslContext {
         }
     }
 
+    public String getLogpath() {
+        return Libyasul.getLogpath();
+    }
+
     public int findPidByCmdline(String cmdline) {
         return Libyasul.findPidByCmdline(cmdline);
     }
