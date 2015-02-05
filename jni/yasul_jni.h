@@ -28,7 +28,7 @@ JNIEXPORT jobject JNICALL
             jint jFlags);
 
 JNIEXPORT jint JNICALL
-    Java_org_openmarl_yasul_Libyasul_stat(JNIEnv *jEnv, 
+    Java_org_openmarl_yasul_Libyasul_stat(JNIEnv *env, 
             jobject jInstance,
             jlong jSessionId);
             
@@ -46,13 +46,18 @@ JNIEXPORT jboolean JNICALL
             jint jFlag);
 
 JNIEXPORT jobject JNICALL
-    Java_org_openmarl_yasul_Libyasul_exec(JNIEnv *jEnv, 
+    Java_org_openmarl_yasul_Libyasul_exec(JNIEnv *env, 
             jobject jInstance,
             jlong jSessionId,
             jstring cmdstr);
    
+JNIEXPORT jobject JNICALL
+    Java_org_openmarl_yasul_Libyasul_lasttty(JNIEnv *env, 
+            jobject jInstance,
+            jlong jSessionId);
+            
 JNIEXPORT void JNICALL
-    Java_org_openmarl_yasul_Libyasul_close(JNIEnv *jEnv, 
+    Java_org_openmarl_yasul_Libyasul_close(JNIEnv *env, 
             jobject jInstance,
             jlong jSessionId);
 

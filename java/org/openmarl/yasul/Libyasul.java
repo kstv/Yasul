@@ -68,6 +68,13 @@ public class Libyasul {
     /**
      *
      * @param sessionId
+     * @return
+     */
+    public static native String lasttty(long sessionId);
+
+    /**
+     *
+     * @param sessionId
      */
     public static native void close(long sessionId);
 

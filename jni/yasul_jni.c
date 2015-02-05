@@ -28,8 +28,6 @@ static jmethodID yjni_YslParcel_init;
 static int yjni_init(JNIEnv *env);
 static int yjni_fatal;
 
-//static ysl_session_t *ysl_resolve_session(long id);
-
 JNIEXPORT int JNICALL
     Java_org_openmarl_yasul_Libyasul_bootstrap(JNIEnv *env, 
             jobject jInstance,
@@ -113,6 +111,18 @@ JNIEXPORT jboolean JNICALL
     int flag = jFlag;
     unsigned char isset = ysl_session_cfget(s, flag);
     return isset;
+}
+
+JNIEXPORT jobject JNICALL
+    Java_org_openmarl_yasul_Libyasul_lasttty(JNIEnv *env, 
+            jobject jInstance,
+            jlong jSessionId) {
+            
+    long addr = jSessionId;
+    ysl_session_t *s = (ysl_session_t *) addr;
+    
+    jstring jLasttty = (*env)->NewStringUTF(env, s->ltty);
+    return jLasttty;    
 }
             
 JNIEXPORT jobject JNICALL

@@ -67,7 +67,7 @@ public class YslSession {
     public String getLastTty() throws YslEpipeExcetion {
         if (mInvalidated)
             throw new YslEpipeExcetion();
-        return null;
+        return Libyasul.lasttty(mID);
     }
 
     public YslParcel exec(String cmdStr) throws YslEpipeExcetion {
