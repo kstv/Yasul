@@ -9,14 +9,25 @@
  */
 package org.openmarl.yasul;
 
+import android.content.Context;
 import android.util.Log;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Field;
 
 public class YslShell {
 
+    private final Context mAppCtx;
     private final YslSession mYslSession;
 
-    public YslShell(YslSession mYslSession) {
-        this.mYslSession = mYslSession;
+    YslShell(Context appCtx, YslSession session) {
+        mAppCtx = appCtx;
+        mYslSession = session;
     }
 
     public String pwd() throws YslEpipeExcetion {
@@ -47,9 +58,42 @@ public class YslShell {
         return (parcel.exitCode == 0);
     }
 
-    public boolean cpa(String asset, String srcPath, String destPath, int moide)
+    public boolean cpa(String asset, String destPath, int mode)
             throws YslEpipeExcetion {
-        return false;
+        int assetId = getRawAssetId(asset);
+        if (assetId < 0)
+            return false; // unknown asset
+
+        boolean isExported = false;
+        byte buf[] = new byte[256];
+        int iBytes = -1;
+
+        // initializing file with mode such as we can write
+        if (touch(destPath, 0666)) {
+            try {
+                InputStream is = mAppCtx.getResources().openRawResource(assetId);
+                OutputStream os = new FileOutputStream(new File(destPath));
+                int red;
+                // copying stream
+                while((red = is.read(buf)) > 0) {
+                    os.write(buf, 0, red);
+                    iBytes += red;
+                }
+                is.close();
+                os.close();
+                // set requested mode
+                if (chmod(mode, destPath))
+                    isExported = true;
+
+                Log.d(TAG,
+                        String.format("exported %d bytes of asset <%s> to: %s",
+                                iBytes, asset, destPath));
+            }
+            catch (IOException e) {
+                Log.e(TAG, String.format("I/O error while copying asset: %s", e.toString()));
+            }
+        }
+        return isExported;
     }
 
     public boolean rm(String path, boolean force) throws YslEpipeExcetion {
@@ -181,9 +225,35 @@ public class YslShell {
         return parcel.lastTty;
     }
 
-    public String[] ps()
-            throws YslEpipeExcetion {
-        return null;
+    private int getRawAssetId(String rawAsset) {
+        int assetId = -1;
+
+        try {
+            Class R_class = Class.forName( String.format("%s.R",
+                    mAppCtx.getApplicationContext().getPackageName()));
+            Class R_raw_class = null;
+            for (Class clazz : R_class.getDeclaredClasses()) {
+                if ("raw".equals(clazz.getSimpleName()))
+                    R_raw_class = clazz;
+            }
+            if (R_raw_class != null) {
+                Field R_raw_asset = R_raw_class.getField(rawAsset);
+                assetId = R_raw_asset.getInt(null);
+            }
+        }
+        catch (ClassNotFoundException e) {
+            Log.e(TAG,
+                    String.format("Not sure to run an Android application: %s",
+                            e.toString())); // should not happen
+        }
+        catch (IllegalAccessException e) {
+            Log.e(TAG, e.toString()); // should never happen
+        }
+        catch (NoSuchFieldException e) {
+            Log.e(TAG, String.format("Unknown asset: %s", rawAsset));
+        }
+
+        return assetId;
     }
 
     private static final String TAG = "YASUL";

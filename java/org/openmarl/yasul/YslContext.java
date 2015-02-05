@@ -56,7 +56,7 @@ public class YslContext {
     }
 
     public void openSession(YslObserver client, int ctlFlags, long timeout) {
-        new YslAsyncFactory(this, client, ctlFlags, timeout).execute();
+        new YslAsyncFactory(mAppCtx, this, client, ctlFlags, timeout).execute();
     }
 
     private static final String TAG = "YASUL";

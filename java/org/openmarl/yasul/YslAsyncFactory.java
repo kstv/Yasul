@@ -9,12 +9,14 @@
  */
 package org.openmarl.yasul;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 
 public class YslAsyncFactory extends AsyncTask<Void,Void,YslSession> {
 
+    private final Context mAppCtx;
     private final YslContext mYslContext;
     private final YslObserver mClient;
     private final int mCtlFlags;
@@ -22,7 +24,9 @@ public class YslAsyncFactory extends AsyncTask<Void,Void,YslSession> {
 
     private static final long WAIT_MILLIS = 1000;
 
-    public YslAsyncFactory(YslContext yslContext, YslObserver client, int flags, long timeout) {
+    YslAsyncFactory(Context appCtx, YslContext yslContext, YslObserver client, int flags,
+                    long timeout) {
+        mAppCtx = appCtx;
         mYslContext =yslContext;
         mClient = client;
         mCtlFlags = flags;
@@ -51,7 +55,8 @@ public class YslAsyncFactory extends AsyncTask<Void,Void,YslSession> {
                 }
             }
             if (Libyasul.stat(port.ID) == 0) {
-                YslSession session = new YslSession(port.pid, port.ID, port.stdout, port.stderr);
+                YslSession session = new YslSession(mAppCtx, port.pid, port.ID, port.stdout,
+                        port.stderr);
                 Log.i(TAG,
                         String.format("Shell session: %s", session.toString()));
                 return session;

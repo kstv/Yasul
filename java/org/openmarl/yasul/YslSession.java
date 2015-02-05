@@ -9,6 +9,7 @@
  */
 package org.openmarl.yasul;
 
+import android.content.Context;
 import android.util.Log;
 
 public class YslSession {
@@ -19,9 +20,11 @@ public class YslSession {
     private String mStdout;
     private String mStderr;
 
+    private Context mAppCtx;
     private YslShell mShell;
 
-    public YslSession(int pid, long id, String stdout, String stderr) {
+    public YslSession(Context appCtx, int pid, long id, String stdout, String stderr) {
+        mAppCtx = appCtx;
         mPid = pid;
         mID = id;
         mStdout = stdout;
@@ -67,8 +70,7 @@ public class YslSession {
         return null;
     }
 
-    public YslParcel exec(String cmdStr)
-            throws YslEpipeExcetion {
+    public YslParcel exec(String cmdStr) throws YslEpipeExcetion {
         YslParcel retval = Libyasul.exec(mID, cmdStr);
         if (retval == null)
             invalidateOnEpipe();
@@ -82,7 +84,7 @@ public class YslSession {
 
     public YslShell getShell() {
         if (mShell == null) {
-            mShell = new YslShell(this);
+            mShell = new YslShell(mAppCtx, this);
         }
         return mShell;
     }
