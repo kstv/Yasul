@@ -36,6 +36,23 @@ public class Libyasul {
     /**
      *
      * @param sessionId
+     * @param flag
+     * @param isSet
+     * @return
+     */
+    public static native int cfset(long sessionId, int flag, boolean isSet);
+
+    /**
+     *
+     * @param sessionId
+     * @param flag
+     * @return
+     */
+    public static native boolean cfget(long sessionId, int flag);
+
+    /**
+     *
+     * @param sessionId
      * @return
      */
     public static native int stat(long sessionId);

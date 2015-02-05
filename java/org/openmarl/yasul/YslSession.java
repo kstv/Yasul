@@ -55,13 +55,13 @@ public class YslSession {
     public int setCtlFlag(int flag, boolean isSet) throws YslEpipeExcetion {
         if (mInvalidated)
             throw new YslEpipeExcetion();
-        return 0;
+        return Libyasul.cfset(mID, flag, isSet);
     }
 
-    public int getCtlFlag(int flag) throws YslEpipeExcetion {
+    public boolean getCtlFlag(int flag) throws YslEpipeExcetion {
         if (mInvalidated)
             throw new YslEpipeExcetion();
-        return 0;
+        return Libyasul.cfget(mID, flag);
     }
 
     public String getLastTty() throws YslEpipeExcetion {

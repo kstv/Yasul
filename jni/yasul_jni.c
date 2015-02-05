@@ -87,6 +87,34 @@ JNIEXPORT jint JNICALL
     return err;
 }
 
+JNIEXPORT jint JNICALL
+    Java_org_openmarl_yasul_Libyasul_cfset(JNIEnv *env, 
+            jobject jInstance,
+            jlong jSessionId,
+            jint jFlag,
+            jboolean jIsSet) {
+    long addr = jSessionId;
+    ysl_session_t *s = (ysl_session_t *) addr;
+    
+    int flag = jFlag;
+    unsigned char isset = jIsSet;
+    int newflags = ysl_session_cfset(s, flag, isset);
+    return newflags;
+}
+
+JNIEXPORT jboolean JNICALL
+    Java_org_openmarl_yasul_Libyasul_cfget(JNIEnv *env, 
+            jobject jInstance,
+            jlong jSessionId,
+            jint jFlag) {
+    long addr = jSessionId;
+    ysl_session_t *s = (ysl_session_t *) addr;
+    
+    int flag = jFlag;
+    unsigned char isset = ysl_session_cfget(s, flag);
+    return isset;
+}
+            
 JNIEXPORT jobject JNICALL
     Java_org_openmarl_yasul_Libyasul_exec(JNIEnv *env, 
             jobject jInstance,
@@ -216,3 +244,5 @@ JNIEXPORT jint JNICALL
     jint jPid = pid;
     return jPid;
 }
+
+

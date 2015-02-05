@@ -32,6 +32,19 @@ JNIEXPORT jint JNICALL
             jobject jInstance,
             jlong jSessionId);
             
+JNIEXPORT jint JNICALL
+    Java_org_openmarl_yasul_Libyasul_cfset(JNIEnv *env, 
+            jobject jInstance,
+            jlong jSessionId,
+            jint jFlag,
+            jboolean jIsSet);
+
+JNIEXPORT jboolean JNICALL
+    Java_org_openmarl_yasul_Libyasul_cfget(JNIEnv *env, 
+            jobject jInstance,
+            jlong jSessionId,
+            jint jFlag);
+
 JNIEXPORT jobject JNICALL
     Java_org_openmarl_yasul_Libyasul_exec(JNIEnv *jEnv, 
             jobject jInstance,
@@ -48,6 +61,7 @@ JNIEXPORT jint JNICALL
             jobject jInstance,
             jstring jCmdline);
 
+            
 // JNI_OnLoad
 //
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved);
