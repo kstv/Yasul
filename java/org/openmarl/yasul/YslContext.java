@@ -52,11 +52,15 @@ public class YslContext {
         }
     }
 
-    private class BootstrapError extends Exception {
+    public int findPidByCmdline(String cmdline) {
+        return Libyasul.findPidByCmdline(cmdline);
     }
 
     public void openSession(YslObserver client, int ctlFlags, long timeout) {
         new YslAsyncFactory(mAppCtx, this, client, ctlFlags, timeout).execute();
+    }
+
+    private class BootstrapError extends Exception {
     }
 
     private static final String TAG = "YASUL";

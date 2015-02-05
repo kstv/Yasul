@@ -4,7 +4,7 @@ LOCAL_PATH := $(call my-dir)
 ##
 include $(CLEAR_VARS)
 LOCAL_MODULE := yasul
-LOCAL_SRC_FILES := log.c buf.c session.c pthout.c ptherr.c yasul.c yasul_jni.c
+LOCAL_SRC_FILES := log.c buf.c ostools.c session.c pthout.c ptherr.c yasul.c yasul_jni.c
 LOCAL_CFLAGS := -g -Wall
 include $(BUILD_SHARED_LIBRARY)
 

@@ -54,4 +54,11 @@ public class Libyasul {
      */
     public static native void close(long sessionId);
 
+    /**
+     *
+     * @param cmdline
+     * @return
+     */
+    public static native int findPidByCmdline(String cmdline);
+
 }

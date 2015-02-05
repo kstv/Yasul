@@ -16,7 +16,7 @@
 extern "C" {
 #endif
 
-JNIEXPORT int JNICALL
+JNIEXPORT jint JNICALL
     Java_org_openmarl_yasul_Libyasul_bootstrap(JNIEnv *env, 
             jobject jInstance,
             jstring jLogdir,
@@ -42,6 +42,11 @@ JNIEXPORT void JNICALL
     Java_org_openmarl_yasul_Libyasul_close(JNIEnv *jEnv, 
             jobject jInstance,
             jlong jSessionId);
+
+JNIEXPORT jint JNICALL
+    Java_org_openmarl_yasul_Libyasul_findPidByCmdline(JNIEnv *env, 
+            jobject jInstance,
+            jstring jCmdline);
 
 // JNI_OnLoad
 //

@@ -14,6 +14,7 @@
 
 #include "def.h"
 #include "log.h"
+#include "ostools.h"
 #include "yasul.h"
 #include "yasul_jni.h"
 
@@ -202,3 +203,16 @@ int yjni_init(JNIEnv *env) {
     return 0;
 }
 
+JNIEXPORT jint JNICALL
+    Java_org_openmarl_yasul_Libyasul_findPidByCmdline(JNIEnv *env, 
+            jobject jInstance,
+            jstring jCmdline) {
+    int pid = -1;
+    const char *cmdline = (*env)->GetStringUTFChars(env, jCmdline, 0);
+    if (cmdline) {
+        pid = ysl_os_find_pid(cmdline);
+        (*env)->ReleaseStringUTFChars(env, jCmdline, cmdline);
+    }
+    jint jPid = pid;
+    return jPid;
+}
