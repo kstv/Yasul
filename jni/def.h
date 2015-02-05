@@ -28,9 +28,12 @@
 // a copy of the last shell process stdout line always ("last tty") available .
 #define YSL_SF_TAIL (0x04)
 
-// Asynchronous: don't wait for command completion before returning from
-// ysl_session_exec().
-#define YSL_SF_ASYN (0x08)
+// Zero TTY before executing next command.
+// When this flag is set, a command that does not produce any output
+// will update last TTY to an empty value.
+// When this flag is not set, a command that does not produce any output
+// does not update the last TTY available value.
+#define YSL_SF_ZTTY (0x08)
 
 // Verbose: logs a session's commands and exit codes, ...
 #define YSL_SF_VERB (0x10)

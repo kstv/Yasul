@@ -19,7 +19,7 @@ public interface Ysl {
 
     public static final int SF_TAIL = 0x04;
 
-    public static final int SF_ASYN = 0x08;
+    public static final int SF_ZTTY = 0x08;
 
     public static final int SF_VERB = 0x10;
 }

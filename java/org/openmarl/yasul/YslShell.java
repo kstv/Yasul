@@ -69,7 +69,7 @@ public class YslShell {
 
     public String getenv(String variableName) throws YslEpipeExcetion {
         YslParcel parcel = mYslSession.exec(String.format( "echo \"$%s\"", variableName));
-        return parcel.lastTty;
+        return ( (parcel.lastTty != null) && (parcel.lastTty.length()>0) ) ? parcel.lastTty : null;
     }
 
     public void setenv(String variableName, String variableValue, boolean exportSubproc)

@@ -63,20 +63,32 @@ void *ysl_pthout_fn(void *arg) {
             if (ysl_buf_strstr(b, YSL_LEC_TAG)) {
                 // set session's ltty
                 if (! (s->flags & YSL_SF_TAIL)) {
-                    free(s->ltty);
-                    s->ltty = malloc(hsz);
-                    if (s->ltty) 
-                        memcpy(s->ltty, hltty, hsz);
+                    ysl_log_debugf("hsz: %d\n", hsz);
+                    if (hsz > 0) {
+                        free(s->ltty);
+                        s->ltty = malloc(hsz);
+                        if (s->ltty) 
+                            memcpy(s->ltty, hltty, hsz);
+                    }
+                    else {
+                        // we assume ltty should then be empty
+                        if (s->flags & YSL_SF_ZTTY) {
+                            free(s->ltty);
+                            s->ltty = malloc(1);
+                            *(s->ltty) = 0x00;
+                        }
+                    } 
                 } 
                 // command completed, set LEC
                 sscanf(b->data, YSL_LEC_SSCAN, &s->lec);
                 // wakeup main thread waiting for exit code
                 pthread_cond_signal(s->lecc);
+                // reset hltty/hsz
+                hsz = 0;
             }
-            else {
-                // terminates C string
-                ysl_buf_addbyte(b, 0x00);
-                // updates humain readable ltty
+            else {                
+                // updates humain readable ltty if needed                    
+                ysl_buf_addbyte(b, 0x00); // terminates C string
                 free(hltty);                    
                 hltty = b->data;
                 hsz = b->len;

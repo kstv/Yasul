@@ -31,7 +31,7 @@ public class YslAsyncFactory extends AsyncTask<Void,Void,YslSession> {
 
     @Override
     protected YslSession doInBackground(Void... params) {
-        YslPort port = Libyasul.open(Ysl.SF_EOUT | Ysl.SF_EERR | Ysl.SF_VERB);
+        YslPort port = Libyasul.open(mCtlFlags);
         if (port != null) {
             Log.d(TAG, String.format(
                     "opening session, waiting for shell process confirmation (PID: %d) ...",

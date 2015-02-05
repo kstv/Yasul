@@ -79,6 +79,10 @@ char *ysl_buf_strstr(ysl_buf_t *b, const char *str) {
 //
 void ysl_buf_reset(ysl_buf_t *b) {
     b->len = 0;
+    /*
+    if (b->size > 0)
+        *(b->data) = 0x00;
+        */
 }
 
 // ysl_buf_delete():
